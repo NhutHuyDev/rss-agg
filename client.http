@@ -1,0 +1,11 @@
+GET  http://localhost:8080/v1/healthz HTTP/1.1
+content-type: application/json
+
+###
+
+POST http://localhost:8080/v1/users HTTP/1.1
+content-type: application/json
+
+{
+    "name": "Nguyen Huy"
+}
