@@ -33,5 +33,9 @@ func (apiCfg *apiConfig) HandlerCreateUser(w http.ResponseWriter, r *http.Reques
 		return
 	}
 
+	respondWithJSON(w, 201, DatabaseUserToUser(user))
+}
+
+func (apiCfg *apiConfig) HandlerGetUser(w http.ResponseWriter, r *http.Request, user db.User) {
 	respondWithJSON(w, 200, DatabaseUserToUser(user))
 }
