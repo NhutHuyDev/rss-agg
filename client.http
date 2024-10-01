@@ -38,7 +38,7 @@ content-type: application/json
 Authorization: ApiKey 3c6b5bac369f498ace97215aa11284c4ee495fefb52d27c2bbb1b38e2cb4342f
 
 {
-    "feed_id": "31b23de0-37cf-4479-b4c8-8576ff294603",
+    "feed_id": "7d9a2d5d-1193-49fb-a841-2cc5bda80c66",
     "user_id": "757a8984-da5d-4ef8-bf8e-ac855e8ecf47"
 }
 
@@ -50,6 +50,12 @@ Authorization: ApiKey 3c6b5bac369f498ace97215aa11284c4ee495fefb52d27c2bbb1b38e2c
 
 ###
 
-DELETE http://localhost:8080/v1/feed_follows/152929cd-b5e7-43ae-b6ea-47c0126b6054 HTTP/1.1
+DELETE http://localhost:8080/v1/feed_follows/66a9e0b4-a0f7-46c9-912f-306bc91f03e9 HTTP/1.1
+content-type: application/json
+Authorization: ApiKey 3c6b5bac369f498ace97215aa11284c4ee495fefb52d27c2bbb1b38e2cb4342f
+
+###
+
+GET http://localhost:8080/v1/posts?limit=10&page=39 HTTP/1.1
 content-type: application/json
 Authorization: ApiKey 3c6b5bac369f498ace97215aa11284c4ee495fefb52d27c2bbb1b38e2cb4342f
