@@ -7,13 +7,13 @@ POST http://localhost:8080/v1/users HTTP/1.1
 content-type: application/json
 
 {
-    "name": "Tom"
+    "name": "Johnny Sins"
 }
 
 ### 
 GET http://localhost:8080/v1/users HTTP/1.1
 content-type: application/json
-Authorization: ApiKey 3c6b5bac369f498ace97215aa11284c4ee495fefb52d27c2bbb1b38e2cb4342f
+Authorization: ApiKey 17917ddf3a93544f917c53aa05885dd75711df9d38650829c24241538003d039
 
 ### 
 

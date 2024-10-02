@@ -5,18 +5,16 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"time"
 
-	"github.com/NhutHuyDev/rss-agg/internal/db"
+	"github.com/NhutHuyDev/rss-agg/internal/infra/db"
+	"github.com/NhutHuyDev/rss-agg/internal/rest"
+	"github.com/NhutHuyDev/rss-agg/internal/rest/routes"
+	"github.com/NhutHuyDev/rss-agg/internal/services"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/cors"
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 )
-
-type apiConfig struct {
-	DB *db.Queries
-}
 
 func main() {
 	godotenv.Load(".env")
@@ -36,12 +34,15 @@ func main() {
 		log.Fatal("Cannot connection to database")
 	}
 
-	db := db.New(conn)
+	queries := db.New(conn)
 
-	go StartScraping(db, 1, time.Minute)
+	// go StartScraping(db, 1, time.Minute)
 
-	apiCfg := apiConfig{
-		DB: db,
+	apiCfg := rest.APIConfig{
+		DB: queries,
+		UserService: &services.UserServiceImpl{
+			Queries: queries,
+		},
 	}
 
 	router := chi.NewRouter()
@@ -58,19 +59,17 @@ func main() {
 	// Routes
 	v1Router := chi.NewRouter()
 	v1Router.Get("/healthz", HandlerReadiness)
-	v1Router.Post("/users", apiCfg.HandlerCreateUser)
-	v1Router.Get("/users", apiCfg.middlewareAuth(apiCfg.HandlerGetUser))
 
-	v1Router.Post("/feeds", apiCfg.middlewareAuth(apiCfg.HandlerCreateFeed))
-	v1Router.Get("/feeds", apiCfg.HandlerGetFeeds)
+	router.Mount("/v1", routes.NewUserRoute(apiCfg))
 
-	v1Router.Get("/feed_follows", apiCfg.middlewareAuth(apiCfg.HandlerGetFeedFollows))
-	v1Router.Post("/feed_follows", apiCfg.middlewareAuth(apiCfg.HandlerCreateFeedFollow))
-	v1Router.Delete("/feed_follows/{feed_folow_id}", apiCfg.middlewareAuth(apiCfg.HandlerDeleteFeedFollows))
+	// v1Router.Post("/feeds", apiCfg.middlewareAuth(apiCfg.HandlerCreateFeed))
+	// v1Router.Get("/feeds", apiCfg.HandlerGetFeeds)
 
-	v1Router.Get("/posts", apiCfg.middlewareAuth(apiCfg.HandlerGetPostsForUser))
+	// v1Router.Get("/feed_follows", apiCfg.middlewareAuth(apiCfg.HandlerGetFeedFollows))
+	// v1Router.Post("/feed_follows", apiCfg.middlewareAuth(apiCfg.HandlerCreateFeedFollow))
+	// v1Router.Delete("/feed_follows/{feed_folow_id}", apiCfg.middlewareAuth(apiCfg.HandlerDeleteFeedFollows))
 
-	router.Mount("/v1", v1Router)
+	// v1Router.Get("/posts", apiCfg.middlewareAuth(apiCfg.HandlerGetPostsForUser))
 
 	server := &http.Server{
 		Addr:    ":" + portStr,
@@ -78,6 +77,7 @@ func main() {
 	}
 
 	log.Printf("Server is starting on port %v", portStr)
+
 	// Note: listenAndServer() is a blocking function
 	err = server.ListenAndServe()
 	if err != nil {

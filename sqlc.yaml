@@ -5,4 +5,4 @@ sql:
     queries: "sql/queries"
     gen:
       go:
-        out: "internal/db"  
+        out: "internal/infra/db"  
