@@ -29,10 +29,6 @@ func (userService *UserServiceImpl) SetContext(ctx context.Context) {
 	userService.Ctx = ctx
 }
 
-func (userService *UserServiceImpl) GetUser(user domain.User) (domain.User, error) {
-	return user, nil
-}
-
 func (userService *UserServiceImpl) CreateUser(user domain.User) (domain.User, error) {
 	result, err := userService.Queries.CreateUser(userService.Ctx, db.CreateUserParams{
 		ID:        uuid.New(),

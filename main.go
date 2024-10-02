@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -10,8 +11,10 @@ import (
 	"github.com/NhutHuyDev/rss-agg/internal/rest"
 	"github.com/NhutHuyDev/rss-agg/internal/rest/routes"
 	"github.com/NhutHuyDev/rss-agg/internal/services"
+	"github.com/NhutHuyDev/rss-agg/internal/utils"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/cors"
+	"github.com/go-playground/validator/v10"
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 )
@@ -39,7 +42,8 @@ func main() {
 	// go StartScraping(db, 1, time.Minute)
 
 	apiCfg := rest.APIConfig{
-		DB: queries,
+		DB:       queries,
+		Validate: validator.New(),
 		UserService: &services.UserServiceImpl{
 			Queries: queries,
 		},
@@ -57,8 +61,15 @@ func main() {
 	}))
 
 	// Routes
-	v1Router := chi.NewRouter()
-	v1Router.Get("/healthz", HandlerReadiness)
+	router.Get("/v1/healthz", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Print("hello healthz")
+
+		utils.RespondWithJSON(w, 200, struct {
+			Status string `json:"status"`
+		}{
+			Status: "OK",
+		})
+	})
 
 	router.Mount("/v1", routes.NewUserRoute(apiCfg))
 
@@ -70,6 +81,10 @@ func main() {
 	// v1Router.Delete("/feed_follows/{feed_folow_id}", apiCfg.middlewareAuth(apiCfg.HandlerDeleteFeedFollows))
 
 	// v1Router.Get("/posts", apiCfg.middlewareAuth(apiCfg.HandlerGetPostsForUser))
+
+	router.NotFound(func(w http.ResponseWriter, r *http.Request) {
+		utils.RespondWithError(w, 404, "not found")
+	})
 
 	server := &http.Server{
 		Addr:    ":" + portStr,

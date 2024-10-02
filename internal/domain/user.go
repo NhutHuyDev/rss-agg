@@ -17,6 +17,5 @@ type User struct {
 
 type IUserService interface {
 	SetContext(ctx context.Context)
-	GetUser(user User) (User, error)
 	CreateUser(user User) (User, error)
 }
