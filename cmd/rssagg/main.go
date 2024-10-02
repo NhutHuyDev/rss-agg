@@ -1,8 +1,7 @@
-package rssagg
+package main
 
 import (
 	"database/sql"
-	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -11,7 +10,7 @@ import (
 	"github.com/NhutHuyDev/rss-agg/internal/rest"
 	"github.com/NhutHuyDev/rss-agg/internal/rest/routes"
 	"github.com/NhutHuyDev/rss-agg/internal/services"
-	"github.com/NhutHuyDev/rss-agg/internal/utils"
+	utils "github.com/NhutHuyDev/rss-agg/pkg"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/cors"
 	"github.com/go-playground/validator/v10"
@@ -47,6 +46,12 @@ func main() {
 		UserService: &services.UserServiceImpl{
 			Queries: queries,
 		},
+		FeedService: &services.FeedServiceImpl{
+			Queries: queries,
+		},
+		FeedFollowService: &services.FeedFollowServiceImpl{
+			Queries: queries,
+		},
 	}
 
 	router := chi.NewRouter()
@@ -62,8 +67,6 @@ func main() {
 
 	// Routes
 	router.Get("/v1/healthz", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Print("hello healthz")
-
 		utils.RespondWithJSON(w, 200, struct {
 			Status string `json:"status"`
 		}{
@@ -71,14 +74,9 @@ func main() {
 		})
 	})
 
-	router.Mount("/v1", routes.NewUserRoute(apiCfg))
-
-	// v1Router.Post("/feeds", apiCfg.middlewareAuth(apiCfg.HandlerCreateFeed))
-	// v1Router.Get("/feeds", apiCfg.HandlerGetFeeds)
-
-	// v1Router.Get("/feed_follows", apiCfg.middlewareAuth(apiCfg.HandlerGetFeedFollows))
-	// v1Router.Post("/feed_follows", apiCfg.middlewareAuth(apiCfg.HandlerCreateFeedFollow))
-	// v1Router.Delete("/feed_follows/{feed_folow_id}", apiCfg.middlewareAuth(apiCfg.HandlerDeleteFeedFollows))
+	router.Mount("/v1/users", routes.NewUserRoute(apiCfg))
+	router.Mount("/v1/feeds", routes.NewFeedRoute(apiCfg))
+	router.Mount("/v1/feed_follows", routes.NewFeedFollowRoute(apiCfg))
 
 	// v1Router.Get("/posts", apiCfg.middlewareAuth(apiCfg.HandlerGetPostsForUser))
 

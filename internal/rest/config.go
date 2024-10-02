@@ -7,7 +7,9 @@ import (
 )
 
 type APIConfig struct {
-	DB          *db.Queries
-	Validate    *validator.Validate
-	UserService domain.IUserService
+	DB                *db.Queries
+	Validate          *validator.Validate
+	UserService       domain.IUserService
+	FeedService       domain.IFeedService
+	FeedFollowService domain.IFeedFollowService
 }

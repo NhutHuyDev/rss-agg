@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/NhutHuyDev/rss-agg/internal/utils"
+	utils "github.com/NhutHuyDev/rss-agg/pkg"
 )
 
 type DecodeBodyCxtKeyType string

@@ -1,6 +1,7 @@
 package domain
 
 import (
+	"context"
 	"time"
 
 	"github.com/google/uuid"
@@ -15,6 +16,9 @@ type Feed struct {
 }
 
 type IFeedService interface {
+	SetContext(ctx context.Context)
 	GetFeeds() ([]Feed, error)
 	CreateFeed(feed Feed, user_id uuid.UUID) (Feed, error)
+	GetNextFeedsToFetch(limit int) ([]Feed, error)
+	MarkFeedAsFetched(id uuid.UUID) (Feed, error)
 }

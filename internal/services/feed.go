@@ -36,6 +36,10 @@ func CastToFeeds(dbFeeds []db.Feed) []domain.Feed {
 
 // Implementation
 
+func (feedService *FeedServiceImpl) SetContext(ctx context.Context) {
+	feedService.Ctx = ctx
+}
+
 func (feedService *FeedServiceImpl) GetFeeds() ([]domain.Feed, error) {
 	result, err := feedService.Queries.GetFeeds(feedService.Ctx)
 	if err != nil {
@@ -55,6 +59,24 @@ func (feedService *FeedServiceImpl) CreateFeed(feed domain.Feed, user_id uuid.UU
 		UserID:    user_id,
 	})
 
+	if err != nil {
+		return domain.Feed{}, err
+	}
+
+	return CastToFeed(result), nil
+}
+
+func (feedService *FeedServiceImpl) GetNextFeedsToFetch(limit int) ([]domain.Feed, error) {
+	result, err := feedService.Queries.GetNextFeedsToFetch(feedService.Ctx, int32(limit))
+	if err != nil {
+		return []domain.Feed{}, err
+	}
+
+	return CastToFeeds(result), nil
+}
+
+func (feedService *FeedServiceImpl) MarkFeedAsFetched(id uuid.UUID) (domain.Feed, error) {
+	result, err := feedService.Queries.MarkFeedAsFetched(feedService.Ctx, id)
 	if err != nil {
 		return domain.Feed{}, err
 	}

@@ -17,5 +17,6 @@ type User struct {
 
 type IUserService interface {
 	SetContext(ctx context.Context)
+	GetUserByAPIKey(api_key string) (User, error)
 	CreateUser(user User) (User, error)
 }

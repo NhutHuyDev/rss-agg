@@ -2,6 +2,7 @@ package services
 
 import (
 	"context"
+	"time"
 
 	"github.com/NhutHuyDev/rss-agg/internal/domain"
 	"github.com/NhutHuyDev/rss-agg/internal/infra/db"
@@ -35,6 +36,10 @@ func CastToFeedFollows(dbFeedFollows []db.FeedFollow) []domain.FeedFollow {
 
 // Implementation
 
+func (feedfollowService *FeedFollowServiceImpl) SetContext(ctx context.Context) {
+	feedfollowService.Ctx = ctx
+}
+
 func (feedfollowService *FeedFollowServiceImpl) GetFeedFollows(user_id uuid.UUID) ([]domain.FeedFollow, error) {
 	result, err := feedfollowService.Queries.GetFeedFollows(feedfollowService.Ctx, user_id)
 	if err != nil {
@@ -46,8 +51,11 @@ func (feedfollowService *FeedFollowServiceImpl) GetFeedFollows(user_id uuid.UUID
 
 func (feedfollowService *FeedFollowServiceImpl) CreateFeedFollow(feed_id uuid.UUID, user_id uuid.UUID) (domain.FeedFollow, error) {
 	result, err := feedfollowService.Queries.CreateFeedFollow(feedfollowService.Ctx, db.CreateFeedFollowParams{
-		FeedID: feed_id,
-		UserID: user_id,
+		ID:        uuid.New(),
+		CreatedAt: time.Now().UTC(),
+		UpdatedAt: time.Now().UTC(),
+		FeedID:    feed_id,
+		UserID:    user_id,
 	})
 
 	if err != nil {
@@ -58,7 +66,7 @@ func (feedfollowService *FeedFollowServiceImpl) CreateFeedFollow(feed_id uuid.UU
 }
 
 func (feedfollowService *FeedFollowServiceImpl) DeleteFeedFollow(id uuid.UUID, user_id uuid.UUID) error {
-	err := feedfollowService.Queries.DeleteFeedFollows(feedfollowService.Ctx, db.DeleteFeedFollowsParams{
+	err := feedfollowService.Queries.DeleteFeedFollow(feedfollowService.Ctx, db.DeleteFeedFollowParams{
 		ID:     id,
 		UserID: user_id,
 	})

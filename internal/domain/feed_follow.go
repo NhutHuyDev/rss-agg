@@ -1,6 +1,7 @@
 package domain
 
 import (
+	"context"
 	"time"
 
 	"github.com/google/uuid"
@@ -15,6 +16,7 @@ type FeedFollow struct {
 }
 
 type IFeedFollowService interface {
+	SetContext(ctx context.Context)
 	GetFeedFollows(user_id uuid.UUID) ([]FeedFollow, error)
 	CreateFeedFollow(feed_id uuid.UUID, user_id uuid.UUID) (FeedFollow, error)
 	DeleteFeedFollow(id uuid.UUID, user_id uuid.UUID) error

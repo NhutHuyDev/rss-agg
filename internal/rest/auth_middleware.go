@@ -5,8 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/NhutHuyDev/rss-agg/internal/services"
-	"github.com/NhutHuyDev/rss-agg/internal/utils"
+	utils "github.com/NhutHuyDev/rss-agg/pkg"
 )
 
 type UserCxtKeyType string
@@ -21,13 +20,14 @@ func (apiCfg *APIConfig) AuthMiddleware(next http.Handler) http.Handler {
 			return
 		}
 
-		user, err := apiCfg.DB.GetUserByAPIKey(r.Context(), apiKey)
+		apiCfg.UserService.SetContext(r.Context())
+		user, err := apiCfg.UserService.GetUserByAPIKey(apiKey)
 		if err != nil {
 			utils.RespondWithError(w, 403, fmt.Sprintf("Could not get user: %v", err))
 			return
 		}
 
-		ctx := context.WithValue(r.Context(), UserCxtKey, services.CastToUser(user))
+		ctx := context.WithValue(r.Context(), UserCxtKey, user)
 
 		r = r.WithContext(ctx)
 

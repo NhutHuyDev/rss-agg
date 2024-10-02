@@ -25,8 +25,19 @@ func CastToUser(dbUser db.User) domain.User {
 }
 
 // Implementation
+
 func (userService *UserServiceImpl) SetContext(ctx context.Context) {
 	userService.Ctx = ctx
+}
+
+func (userService *UserServiceImpl) GetUserByAPIKey(api_key string) (domain.User, error) {
+	result, err := userService.Queries.GetUserByAPIKey(userService.Ctx, api_key)
+
+	if err != nil {
+		return domain.User{}, err
+	}
+
+	return CastToUser(result), nil
 }
 
 func (userService *UserServiceImpl) CreateUser(user domain.User) (domain.User, error) {
