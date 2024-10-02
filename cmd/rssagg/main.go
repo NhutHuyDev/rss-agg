@@ -1,4 +1,4 @@
-package main
+package rssagg
 
 import (
 	"database/sql"
