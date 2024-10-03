@@ -25,8 +25,8 @@ content-type: application/json
 Authorization: ApiKey 17917ddf3a93544f917c53aa05885dd75711df9d38650829c24241538003d039
 
 {
-    "name": "Wagslane blogs",
-    "url": "https://www.wagslanetest2.dev/index.xml"
+    "name": "Wagslane blog",
+    "url": "https://www.wagslane.dev/index.xml"
 }
 
 ### GET: /feed_follows
@@ -49,6 +49,6 @@ content-type: application/json
 Authorization: ApiKey 3c6b5bac369f498ace97215aa11284c4ee495fefb52d27c2bbb1b38e2cb4342f
 
 ### GET: /posts
-GET http://localhost:8080/v1/posts?limit=10&page=10 HTTP/1.1
+GET http://localhost:8080/v1/posts?limit=1&page=10 HTTP/1.1
 content-type: application/json
 Authorization: ApiKey 3c6b5bac369f498ace97215aa11284c4ee495fefb52d27c2bbb1b38e2cb4342f
