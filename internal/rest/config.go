@@ -12,4 +12,5 @@ type APIConfig struct {
 	UserService       domain.IUserService
 	FeedService       domain.IFeedService
 	FeedFollowService domain.IFeedFollowService
+	PostService       domain.IPostService
 }

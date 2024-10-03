@@ -49,6 +49,15 @@ func (feedService *FeedServiceImpl) GetFeeds() ([]domain.Feed, error) {
 	return CastToFeeds(result), nil
 }
 
+func (feedService *FeedServiceImpl) CountFeeds() (int, error) {
+	result, err := feedService.Queries.CountFeeds(feedService.Ctx)
+	if err != nil {
+		return 0, err
+	}
+
+	return int(result), nil
+}
+
 func (feedService *FeedServiceImpl) CreateFeed(feed domain.Feed, user_id uuid.UUID) (domain.Feed, error) {
 	result, err := feedService.Queries.CreateFeed(feedService.Ctx, db.CreateFeedParams{
 		ID:        uuid.New(),

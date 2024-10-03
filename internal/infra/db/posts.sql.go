@@ -13,6 +13,20 @@ import (
 	"github.com/google/uuid"
 )
 
+const countPostsByUser = `-- name: CountPostsByUser :one
+SELECT COUNT(*) FROM posts
+JOIN feed_follows ON posts.feed_id = feed_follows.feed_id
+WHERE feed_follows.user_id = $1
+ORDER BY posts.published_at DESC
+`
+
+func (q *Queries) CountPostsByUser(ctx context.Context, userID uuid.UUID) (int64, error) {
+	row := q.db.QueryRowContext(ctx, countPostsByUser, userID)
+	var count int64
+	err := row.Scan(&count)
+	return count, err
+}
+
 const createPost = `-- name: CreatePost :one
 INSERT INTO posts (
     id,

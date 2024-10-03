@@ -18,3 +18,9 @@ JOIN feed_follows ON posts.feed_id = feed_follows.feed_id
 WHERE feed_follows.user_id = $1
 ORDER BY posts.published_at DESC
 LIMIT $2 OFFSET $3;
+
+-- name: CountPostsByUser :one
+SELECT COUNT(*) FROM posts
+JOIN feed_follows ON posts.feed_id = feed_follows.feed_id
+WHERE feed_follows.user_id = $1
+ORDER BY posts.published_at DESC;

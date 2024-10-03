@@ -3,6 +3,7 @@ package services
 import (
 	"context"
 	"database/sql"
+	"errors"
 	"time"
 
 	"github.com/NhutHuyDev/rss-agg/internal/domain"
@@ -45,7 +46,19 @@ func CastToPosts(dbPosts []db.Post) []domain.Post {
 
 // Implementation
 
+func (postService *PostServiceImpl) SetContext(ctx context.Context) {
+	postService.Ctx = ctx
+}
+
 func (postService *PostServiceImpl) GetPostsByUser(user_id uuid.UUID, page int, limit int) ([]domain.Post, error) {
+	if page <= 0 {
+		return []domain.Post{}, errors.New("'page' params is higher than 0")
+	}
+
+	if limit <= 0 {
+		return []domain.Post{}, errors.New("'limit' params is higher than 0")
+	}
+
 	offset := (page - 1) * limit
 
 	posts, err := postService.Queries.GetPostsByUser(postService.Ctx, db.GetPostsByUserParams{
@@ -58,6 +71,15 @@ func (postService *PostServiceImpl) GetPostsByUser(user_id uuid.UUID, page int, 
 	}
 
 	return CastToPosts(posts), nil
+}
+
+func (postService *PostServiceImpl) CountPosts(user_id uuid.UUID) (int, error) {
+	result, err := postService.Queries.CountPostsByUser(postService.Ctx, user_id)
+	if err != nil {
+		return 0, err
+	}
+
+	return int(result), nil
 }
 
 func (postService *PostServiceImpl) CreatePost(post domain.Post) (domain.Post, error) {

@@ -18,6 +18,7 @@ type Feed struct {
 type IFeedService interface {
 	SetContext(ctx context.Context)
 	GetFeeds() ([]Feed, error)
+	CountFeeds() (int, error)
 	CreateFeed(feed Feed, user_id uuid.UUID) (Feed, error)
 	GetNextFeedsToFetch(limit int) ([]Feed, error)
 	MarkFeedAsFetched(id uuid.UUID) (Feed, error)

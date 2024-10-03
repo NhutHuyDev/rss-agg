@@ -52,6 +52,9 @@ func main() {
 		FeedFollowService: &services.FeedFollowServiceImpl{
 			Queries: queries,
 		},
+		PostService: &services.PostServiceImpl{
+			Queries: queries,
+		},
 	}
 
 	router := chi.NewRouter()
@@ -77,6 +80,7 @@ func main() {
 	router.Mount("/v1/users", routes.NewUserRoute(apiCfg))
 	router.Mount("/v1/feeds", routes.NewFeedRoute(apiCfg))
 	router.Mount("/v1/feed_follows", routes.NewFeedFollowRoute(apiCfg))
+	router.Mount("/v1/posts", routes.NewPostRoute(apiCfg))
 
 	// v1Router.Get("/posts", apiCfg.middlewareAuth(apiCfg.HandlerGetPostsForUser))
 

@@ -1,6 +1,7 @@
 package domain
 
 import (
+	"context"
 	"time"
 
 	"github.com/google/uuid"
@@ -18,6 +19,8 @@ type Post struct {
 }
 
 type IPostService interface {
+	SetContext(ctx context.Context)
 	GetPostsByUser(user_id uuid.UUID, page int, limit int) ([]Post, error)
+	CountPosts(user_id uuid.UUID) (int, error)
 	CreatePost(post Post) (Post, error)
 }
