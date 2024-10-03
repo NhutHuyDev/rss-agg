@@ -2,6 +2,7 @@ package services
 
 import (
 	"context"
+	"errors"
 	"time"
 
 	"github.com/NhutHuyDev/rss-agg/internal/domain"
@@ -40,8 +41,21 @@ func (feedService *FeedServiceImpl) SetContext(ctx context.Context) {
 	feedService.Ctx = ctx
 }
 
-func (feedService *FeedServiceImpl) GetFeeds() ([]domain.Feed, error) {
-	result, err := feedService.Queries.GetFeeds(feedService.Ctx)
+func (feedService *FeedServiceImpl) GetFeeds(limit int, page int) ([]domain.Feed, error) {
+	if page <= 0 {
+		return []domain.Feed{}, errors.New("'page' params is higher than 0")
+	}
+
+	if limit <= 0 {
+		return []domain.Feed{}, errors.New("'limit' params is higher than 0")
+	}
+
+	offset := (page - 1) * limit
+
+	result, err := feedService.Queries.GetFeeds(feedService.Ctx, db.GetFeedsParams{
+		Limit:  int32(limit),
+		Offset: int32(offset),
+	})
 	if err != nil {
 		return []domain.Feed{}, err
 	}

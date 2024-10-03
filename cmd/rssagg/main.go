@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/NhutHuyDev/rss-agg/internal/infra/db"
 	"github.com/NhutHuyDev/rss-agg/internal/rest"
@@ -38,7 +39,7 @@ func main() {
 
 	queries := db.New(conn)
 
-	// go StartScraping(db, 1, time.Minute)
+	go services.StartScraping(queries, 1, time.Minute)
 
 	apiCfg := rest.APIConfig{
 		DB:       queries,
@@ -81,8 +82,6 @@ func main() {
 	router.Mount("/v1/feeds", routes.NewFeedRoute(apiCfg))
 	router.Mount("/v1/feed_follows", routes.NewFeedFollowRoute(apiCfg))
 	router.Mount("/v1/posts", routes.NewPostRoute(apiCfg))
-
-	// v1Router.Get("/posts", apiCfg.middlewareAuth(apiCfg.HandlerGetPostsForUser))
 
 	router.NotFound(func(w http.ResponseWriter, r *http.Request) {
 		utils.RespondWithError(w, 404, "not found")

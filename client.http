@@ -16,7 +16,7 @@ content-type: application/json
 }
 
 ### GET: /feeds
-GET http://localhost:8080/v1/feeds HTTP/1.1
+GET http://localhost:8080/v1/feeds?limit=3&page=1 HTTP/1.1
 content-type: application/json
 
 ### POST: /feeds 
@@ -44,11 +44,11 @@ Authorization: ApiKey 3c6b5bac369f498ace97215aa11284c4ee495fefb52d27c2bbb1b38e2c
 }
 
 ### DELETE: /feed_follows
-DELETE http://localhost:8080/v1/feed_follows/00000000-0000-0000-0000-000000000000 HTTP/1.1
+DELETE http://localhost:8080/v1/feed_follows/cde222f5-08f8-4cc0-89b4-0eb91c77a283 HTTP/1.1
 content-type: application/json
 Authorization: ApiKey 3c6b5bac369f498ace97215aa11284c4ee495fefb52d27c2bbb1b38e2cb4342f
 
 ### GET: /posts
-GET http://localhost:8080/v1/posts?limit=10&page=39 HTTP/1.1
+GET http://localhost:8080/v1/posts?limit=10&page=10 HTTP/1.1
 content-type: application/json
 Authorization: ApiKey 3c6b5bac369f498ace97215aa11284c4ee495fefb52d27c2bbb1b38e2cb4342f
