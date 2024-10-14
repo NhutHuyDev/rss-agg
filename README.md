@@ -47,7 +47,7 @@ go run .
 ```
 
 ## Database Diagram
-![rssagg](https://github.com/user-attachments/assets/51f5dccf-be1d-41d3-b7fd-8e23d868e9ba)## RSS-AGG (Rich Site Summary Aggregation)
+![rssagg](https://github.com/user-attachments/assets/51f5dccf-be1d-41d3-b7fd-8e23d868e9ba)
 
 ## API appendix
 
