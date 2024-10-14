@@ -18,7 +18,7 @@ A simple [RSS](https://en.wikipedia.org/wiki/RSS) aggregator backend built by Go
 
 - ```sqlc``` installed for code generation
 
-- ```goose``` insstalled for database migration
+- ```goose``` installed for database migration
 
 ### Database Migration
 **./sql/schema**
