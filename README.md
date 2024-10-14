@@ -1,4 +1,4 @@
-![rssagg](https://github.com/user-attachments/assets/51f5dccf-be1d-41d3-b7fd-8e23d868e9ba)## RSS-AGG (Rich Site Summary Aggregation)
+## RSS-AGG (Rich Site Summary Aggregation)
 A simple [RSS](https://en.wikipedia.org/wiki/RSS) aggregator backend built by Go, that allows users to follow to and manage RSS feeds via [HTTP/1.1](https://pkg.go.dev/net/http).
 - RESTful APIs using JSON format
 
@@ -47,6 +47,8 @@ go run .
 ```
 
 ## Database Diagram
+![rssagg](https://github.com/user-attachments/assets/51f5dccf-be1d-41d3-b7fd-8e23d868e9ba)## RSS-AGG (Rich Site Summary Aggregation)
+
 ![Upl<?xml version="1.0" standalone="no"?><svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="942.873049343512" height="508.1521225929888"><style>
   @font-face {
     font-family: 'Open Sans';
