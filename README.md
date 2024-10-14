@@ -68,7 +68,7 @@ go run .
 |--------|----------------|----------------------------------|----------------------|-------------------------------------------------------------|----------------|
 | GET    | `/v1/feed_follows`        | Get all feeds that a specific user followed    | N/A                  | `[{"id": "57af56ce-bed1-4d0e-879c-073555835a9e", "created_at": "2024-10-01T09:11:05.593611Z", "updated_at": "2024-10-01T09:11:05.593611Z", "feed_id": "7d9a2d5d-1193-49fb-a841-2cc5bda80c66", "user_id": "757a8984-da5d-4ef8-bf8e-ac855e8ecf47"}]`| Yes             |
 | POST    | `/v1/feed_follows`   | Follow a specific feed  | `{"feed_id": "31b23de0-37cf-4479-b4c8-8576ff294603"}` | `{"id": "cce009a0-7155-4145-ada3-e91cba2aea7a", "created_at": "2024-10-03T07:30:06.166133Z", "updated_at": "2024-10-03T07:30:06.166133Z", "feed_id": "31b23de0-37cf-4479-b4c8-8576ff294603", "user_id": "757a8984-da5d-4ef8-bf8e-ac855e8ecf47"}` | Yes            |
-| DELETE    | `/v1/feed_follows/{feed_folow_id}`   | Unfollow a specific feed  | N/A | `{}` | Yes            |
+| DELETE    | `/v1/feed_follows/:feed_folow_id`   | Unfollow a specific feed  | N/A | `{}` | Yes            |
 
 ### Post API
 | Method | Endpoint       | Description                     | Request Body Example         | Response Body Example                                       | Authentication |
